@@ -1,0 +1,30 @@
+server {
+        server_name api.itinerarys.com;
+
+location /static {
+        root /home/ubuntu/django_example_repo;
+}
+
+location / {
+        proxy_pass         "http://127.0.0.1:8000";
+    }
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/api.itinerarys.com/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/api.itinerarys.com/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+server {
+    if ($host = api.itinerarys.com) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+        listen 80;
+        server_name api.itinerarys.com;
+    return 404; # managed by Certbot
+
+
+}
