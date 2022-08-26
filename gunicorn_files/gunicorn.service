@@ -1,0 +1,13 @@
+[Unit]
+Description=gunicorn daemon
+After=network.target
+
+[Service]
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu/django_example_repo/
+ExecStart=/home/ubuntu/.django_venv/bin/gunicorn --workers 3 --bind 127.0.0.1:8000 core.wsgi:application
+ExecReload=/bin/kill -s HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target
